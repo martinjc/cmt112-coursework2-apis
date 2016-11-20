@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wikipedia API Example</title>
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/default.min.css">
+    <!-- JavaScript -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+</head>
+<body>
+    <article>
+        <h1>Wikipedia Example</h1>
+        <p>Accessing the <a href="https://www.mediawiki.org/wiki/API:Main_page">Wikipedia API</a> is relatively straightforward. The most complicated aspect is that it generally requires many parameters to be supplied to access the page you are looking for. For example, we must tell the API that we want to access the "<code>extracts</code>" property. We can also specify that we want to follow <code>redirects</code>, and that we want the list of page IDs (<code>indexpageids</code>) returned to be in the response, so that we can access the data:
+            <pre>
+                <code>
+                    // Function that will process the response from the API
+                    // This function should probably check for errors
+                    var processResponse = function(data) {
+                        console.log(data);
+                    }
+
+                    // Function to ensure parameters used in request are encoded correctly
+                    var encodeParameters = function(params) {
+                        // join all key value pairs and store in an array
+                        var strArray = [];
+                        for(var key in params) {
+                            if(params.hasOwnProperty(key)) {
+                                var paramString = encodeURIComponent(key) + &quot;=&quot; + encodeURIComponent(params[key]);
+                                strArray.push(paramString);
+                            }
+                        }
+                        // join everything in the array together
+                        return strArray.join(&quot;&amp;&quot;);
+                    }
+
+                    // parameters for the API request
+                    var query=&quot;Public Service Broadcasting (band)&quot;;
+
+                    var parameters = {
+                        format: &quot;json&quot;,
+                        formatversion: 2,
+                        action: &quot;query&quot;,
+                        prop: &quot;extracts&quot;,
+                        titles: query,
+                        indexpageids: &quot;&quot;,
+                        redirects: &quot;&quot;,
+                        callback: &quot;processResponse&quot;
+                    }
+
+                    // construct the url
+                    var base_url = &quot;http://en.wikipedia.org/w/api.php&quot;;
+                    var query_url = base_url + &apos;?&apos; + encodeParameters(parameters);
+
+                    console.log(query_url);
+
+                    // add a new script to the page, using the query_url as the source
+                    var script = document.createElement(&apos;script&apos;);
+                    script.src = query_url;
+                    document.getElementsByTagName(&apos;head&apos;)[0].appendChild(script);
+                </code>
+            </pre>
+        </p>
+        <p><strong>IMPORTANT NOTE!</strong> This is <strong>NOT ENOUGH</strong> to pass Coursework 2 for CMT112 - you will need to add some extra functionality and presentation of data. I will not be impressed if your submission consists only of the code presented here!</p>
+        <p><a href="../../">Back to home</a></p>
+    </article>
+    <script>
+
+        // Function that will process the response from the API
+        // This function should probably check for errors
+        var processResponse = function(data) {
+            console.log(data);
+        }
+
+        // Function to ensure parameters used in request are encoded correctly
+        var encodeParameters = function(params) {
+            // join all key value pairs and store in an array
+            var strArray = [];
+            for(var key in params) {
+                if(params.hasOwnProperty(key)) {
+                    var paramString = encodeURIComponent(key) + "=" + encodeURIComponent(params[key]);
+                    strArray.push(paramString);
+                }
+            }
+            // join everything in the array together
+            return strArray.join("&");
+        }
+
+        // parameters for the API request
+        var query="Public Service Broadcasting (band)";
+
+        var parameters = {
+            format: "json",
+            formatversion: 2,
+            action: "query",
+            prop: "extracts",
+            titles: query,
+            indexpageids: "",
+            redirects: "",
+            callback: "processResponse"
+        }
+
+        // construct the url
+        var base_url = "http://en.wikipedia.org/w/api.php";
+        var query_url = base_url + '?' + encodeParameters(parameters);
+
+        console.log(query_url);
+
+        // add a new script to the page, using the query_url as the source
+        var script = document.createElement('script');
+        script.src = query_url;
+        document.getElementsByTagName('head')[0].appendChild(script);
+
+    </script>
+    <script>
+         hljs.initHighlightingOnLoad();
+    </script>
+</body>
+</html>
