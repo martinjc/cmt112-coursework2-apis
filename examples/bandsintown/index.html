@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bandsintown Example</title>
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/default.min.css">
+    <!-- JavaScript -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+</head>
+<body>
+    <article>
+        <h1>Bandsintown Example</h1>
+        <p><a href="http://www.bandsintown.com/api/overview">Bands in Town</a> can provide us with information about forthcoming gigs and events for bands. You can search by band name or by musicbrainz ID:
+            <pre>
+                <code>
+                    // Function that will process the response from the API
+                    // This function should probably check for errors
+                    var processResponse = function(data) {
+                        console.log(data);
+                    }
+
+                    // Function to ensure parameters used in request are encoded correctly
+                    var encodeParameters = function(params) {
+                        // join all key value pairs and store in an array
+                        var strArray = [];
+                        for(var key in params) {
+                            if(params.hasOwnProperty(key)) {
+                                var paramString = encodeURIComponent(key) + &quot;=&quot; + encodeURIComponent(params[key]);
+                                strArray.push(paramString);
+                            }
+                        }
+                        // join everything in the array together
+                        return strArray.join(&quot;&amp;&quot;);
+                    }
+
+                    // parameters for the API request
+                    var band=&quot;Public Service Broadcasting&quot;;
+
+                    var parameters = {
+                        api_version: &quot;2.0&quot;,
+                        app_id: &quot;test&quot;,
+                        callback: &quot;processResponse&quot;
+                    }
+
+                    // construct the url
+                    var base_url = &quot;//api.bandsintown.com/artists/&quot; + encodeURIComponent(band) + &quot;.json&quot;;
+                    var query_url = base_url + &apos;?&apos; + encodeParameters(parameters);
+
+                    console.log(query_url);
+
+                    // add a new script to the page, using the query_url as the source
+                    var script = document.createElement(&apos;script&apos;);
+                    script.src = query_url;
+                    document.getElementsByTagName(&apos;head&apos;)[0].appendChild(script);
+                </code>
+            </pre>
+        </p>
+        <p><strong>IMPORTANT NOTE!</strong> This is <strong>NOT ENOUGH</strong> to pass Coursework 2 for CMT112 - you will need to add some extra functionality and presentation of data. I will not be impressed if your submission consists only of the code presented here!</p>
+    </article>
+    <script>
+
+        // Function that will process the response from the API
+        // This function should probably check for errors
+        var processResponse = function(data) {
+            console.log(data);
+        }
+
+        // Function to ensure parameters used in request are encoded correctly
+        var encodeParameters = function(params) {
+            // join all key value pairs and store in an array
+            var strArray = [];
+            for(var key in params) {
+                if(params.hasOwnProperty(key)) {
+                    var paramString = encodeURIComponent(key) + "=" + encodeURIComponent(params[key]);
+                    strArray.push(paramString);
+                }
+            }
+            // join everything in the array together
+            return strArray.join("&");
+        }
+
+        // parameters for the API request
+        var band="Public Service Broadcasting";
+
+        var parameters = {
+            api_version: "2.0",
+            app_id: "test",
+            callback: "processResponse"
+        }
+
+        // construct the url
+        var base_url = "//api.bandsintown.com/artists/" + encodeURIComponent(band) + ".json";
+        var query_url = base_url + '?' + encodeParameters(parameters);
+
+        console.log(query_url);
+
+        // add a new script to the page, using the query_url as the source
+        var script = document.createElement('script');
+        script.src = query_url;
+        document.getElementsByTagName('head')[0].appendChild(script);
+
+    </script>
+    <script>
+         hljs.initHighlightingOnLoad();
+    </script>
+</body>
+</html>
