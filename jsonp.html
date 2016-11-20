@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JSONP Example</title>
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/default.min.css">
+    <!-- JavaScript -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+</head>
+<body>
+    <article>
+        <h1>JSONP Example</h1>
+        <p>Occasionally, the API you are using will not support CORS, so we cannot use an <code>XMLHttpRequest</code> object to access the API. However, we can still access the API, assuming it supports <code>JSONP</code>. For instance, the <a href="http://www.bandsintown.com/api/overview">Bandsintown</a> API does not support CORS, but does support JSONP.</p>
+        <p>In order to use an API via <code>JSONP</code>, we still write a function that handles the response to the API. We then give the name of this function to the API. The API can then wrap the response in a function call with the correct name. To execute the API call, rather than use an <code>XMLHttpRequest</code> object to send an API call, we create a new script element in our page, and tell the browser to use the response from the API as the script source:
+            <pre>
+                <code>
+                    // Function that will process the response from the API
+                    // This function should probably check for errors
+                    var processResponse = function(data) {
+                        console.log(data);
+                    }
+
+                    // Function to ensure parameters used in request are encoded correctly
+                    var encodeParameters = function(params) {
+                        // join all key value pairs and store in an array
+                        var strArray = [];
+                        for(var key in params) {
+                            if(params.hasOwnProperty(key)) {
+                                var paramString = encodeURIComponent(key) + &quot;=&quot; + encodeURIComponent(params[key]);
+                                strArray.push(paramString);
+                            }
+                        }
+                        // join everything in the array together
+                        return strArray.join(&quot;&amp;&quot;);
+                    }
+
+                    // parameters for the API request
+                    var band=&quot;Queens of the Stone Age&quot;;
+
+                    var parameters = {
+                        api_version: &quot;2.0&quot;,
+                        app_id: &quot;test&quot;,
+                        callback: &quot;processResponse&quot;
+                    }
+
+                    // construct the url
+                    var base_url = &quot;//api.bandsintown.com/artists/&quot; + encodeURIComponent(band) + &quot;.json&quot;;
+                    var query_url = base_url + &apos;?&apos; + encodeParameters(parameters);
+
+                    console.log(query_url);
+
+                    // add a new script to the page, using the query_url as the source
+                    var script = document.createElement(&apos;script&apos;);
+                    script.src = query_url;
+                    document.getElementsByTagName(&apos;head&apos;)[0].appendChild(script);
+                </code>
+            </pre>
+        </p>
+
+    </article>
+    <script>
+
+        // Function that will process the response from the API
+        // This function should probably check for errors
+        var processResponse = function(data) {
+            console.log(data);
+        }
+
+        // Function to ensure parameters used in request are encoded correctly
+        var encodeParameters = function(params) {
+            // join all key value pairs and store in an array
+            var strArray = [];
+            for(var key in params) {
+                if(params.hasOwnProperty(key)) {
+                    var paramString = encodeURIComponent(key) + "=" + encodeURIComponent(params[key]);
+                    strArray.push(paramString);
+                }
+            }
+            // join everything in the array together
+            return strArray.join("&");
+        }
+
+        // parameters for the API request
+        var band="Queens of the Stone Age";
+
+        var parameters = {
+            api_version: "2.0",
+            app_id: "test",
+            callback: "processResponse"
+        }
+
+        // construct the url
+        var base_url = "//api.bandsintown.com/artists/" + encodeURIComponent(band) + ".json";
+        var query_url = base_url + '?' + encodeParameters(parameters);
+
+        console.log(query_url);
+
+        // add a new script to the page, using the query_url as the source
+        var script = document.createElement('script');
+        script.src = query_url;
+        document.getElementsByTagName('head')[0].appendChild(script);
+
+    </script>
+    <script>
+         hljs.initHighlightingOnLoad();
+    </script>
+</body>
+</html>

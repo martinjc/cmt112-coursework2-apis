@@ -7,6 +7,30 @@ body {
     margin: auto;
 }
 
+section {
+    margin-top: 30px;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 200;
+}
+
+h1 code {
+    font-size: 2.4rem;
+    font-weight: 200;
+}
+
+h2 {
+    font-size: 1.2rem;
+    font-weight: 200;
+}
+
+h2 code {
+    font-size: 1.5rem;
+    font-weight: inherit;
+}
+
 img {
     display: block;
     width: 90%;

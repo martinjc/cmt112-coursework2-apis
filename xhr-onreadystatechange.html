@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>API Examples</title>
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/default.min.css">
+    <!-- JavaScript -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+</head>
+<body>
+    <article>
+        <h1><code>XMLHttpRequest</code> and <code>onreadystatechange</code></h1>
+        <p>
+            One way of using an <code>XMLHttpRequest</code> is to set the <code>onreadystatechange</code> property to be a function which can process the API response. An example of doing this is below:
+            <pre>
+                <code>
+                    // Function that will process the response from the API
+                    // Remember - you can handle other states than &apos;DONE&apos;,
+                    // and check for other statuses than &apos;200&apos;,
+                    // and probably should do in a complete solution
+                    var processResponse = function() {
+                        if(this.readyState === XMLHttpRequest.DONE) {
+                            if(this.status === 200) {
+                                var data = JSON.parse(this.response);
+                                // Replace this code with code that
+                                // does something with the response
+                                console.log(data);
+                            } else {
+                                console.log(&quot;we&apos;ve had a problem!&quot;);
+                            }
+                        }
+
+                    }
+
+                    // Function to ensure parameters used in request are encoded correctly
+                    var encodeParameters = function(params) {
+                        // join all key value pairs and store in an array
+                        var strArray = [];
+                        for(var key in params) {
+                            if(params.hasOwnProperty(key)) {
+                                var paramString = encodeURIComponent(key) + &quot;=&quot; + encodeURIComponent(params[key]);
+                                strArray.push(paramString);
+                            }
+                        }
+                        // join everything in the array together
+                        return strArray.join(&quot;&amp;&quot;);
+                    }
+
+                    // the parameters for the API request
+                    var parameters = {
+                        lat: 51.4816,
+                        lng: 3.1791,
+                    }
+
+                    // construct the URL to call
+                    var base_url = &apos;http://api.sunrise-sunset.org/json&apos;;
+                    var query_url = base_url + &apos;?&apos; + encodeParameters(parameters);
+                    console.log(query_url);
+
+                    // create an XMLHttpRequest object, add a listener to
+                    // tell it what to do if successful, tell it which URL
+                    // to GET, and then make (&apos;send&apos;) the call
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = processResponse;
+                    xhttp.open(&apos;GET&apos;, query_url);
+                    xhttp.send();
+                </code>
+            </pre>
+        </p>
+    </article>
+    <script>
+         hljs.initHighlightingOnLoad();
+    </script>
+</body>
+</html>
