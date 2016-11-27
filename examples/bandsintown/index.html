@@ -15,45 +15,45 @@
         <p><a href="http://www.bandsintown.com/api/overview">Bands in Town</a> can provide us with information about forthcoming gigs and events for bands. You can search by band name or by musicbrainz ID:
             <pre>
                 <code>
-                    // Function that will process the response from the API
-                    // This function should probably check for errors
-                    var processResponse = function(data) {
-                        console.log(data);
-                    }
+// Function that will process the response from the API
+// This function should probably check for errors
+var processResponse = function(data) {
+    console.log(data);
+}
 
-                    // Function to ensure parameters used in request are encoded correctly
-                    var encodeParameters = function(params) {
-                        // join all key value pairs and store in an array
-                        var strArray = [];
-                        for(var key in params) {
-                            if(params.hasOwnProperty(key)) {
-                                var paramString = encodeURIComponent(key) + &quot;=&quot; + encodeURIComponent(params[key]);
-                                strArray.push(paramString);
-                            }
-                        }
-                        // join everything in the array together
-                        return strArray.join(&quot;&amp;&quot;);
-                    }
+// Function to ensure parameters used in request are encoded correctly
+var encodeParameters = function(params) {
+    // join all key value pairs and store in an array
+    var strArray = [];
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var paramString = encodeURIComponent(key) + &quot;=&quot; + encodeURIComponent(params[key]);
+            strArray.push(paramString);
+        }
+    }
+    // join everything in the array together
+    return strArray.join(&quot;&amp;&quot;);
+}
 
-                    // parameters for the API request
-                    var band=&quot;Public Service Broadcasting&quot;;
+// parameters for the API request
+var band=&quot;Public Service Broadcasting&quot;;
 
-                    var parameters = {
-                        api_version: &quot;2.0&quot;,
-                        app_id: &quot;test&quot;,
-                        callback: &quot;processResponse&quot;
-                    }
+var parameters = {
+    api_version: &quot;2.0&quot;,
+    app_id: &quot;test&quot;,
+    callback: &quot;processResponse&quot;
+}
 
-                    // construct the url
-                    var base_url = &quot;//api.bandsintown.com/artists/&quot; + encodeURIComponent(band) + &quot;.json&quot;;
-                    var query_url = base_url + &apos;?&apos; + encodeParameters(parameters);
+// construct the url
+var base_url = &quot;//api.bandsintown.com/artists/&quot; + encodeURIComponent(band) + &quot;.json&quot;;
+var query_url = base_url + &apos;?&apos; + encodeParameters(parameters);
 
-                    console.log(query_url);
+console.log(query_url);
 
-                    // add a new script to the page, using the query_url as the source
-                    var script = document.createElement(&apos;script&apos;);
-                    script.src = query_url;
-                    document.getElementsByTagName(&apos;head&apos;)[0].appendChild(script);
+// add a new script to the page, using the query_url as the source
+var script = document.createElement(&apos;script&apos;);
+script.src = query_url;
+document.getElementsByTagName(&apos;head&apos;)[0].appendChild(script);
                 </code>
             </pre>
         </p>

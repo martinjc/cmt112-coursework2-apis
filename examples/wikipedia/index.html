@@ -15,50 +15,50 @@
         <p>Accessing the <a href="https://www.mediawiki.org/wiki/API:Main_page">Wikipedia API</a> is relatively straightforward. The most complicated aspect is that it generally requires many parameters to be supplied to access the page you are looking for. For example, we must tell the API that we want to access the "<code>extracts</code>" property. We can also specify that we want to follow <code>redirects</code>, and that we want the list of page IDs (<code>indexpageids</code>) returned to be in the response, so that we can access the data:
             <pre>
                 <code>
-                    // Function that will process the response from the API
-                    // This function should probably check for errors
-                    var processResponse = function(data) {
-                        console.log(data);
-                    }
+// Function that will process the response from the API
+// This function should probably check for errors
+var processResponse = function(data) {
+    console.log(data);
+}
 
-                    // Function to ensure parameters used in request are encoded correctly
-                    var encodeParameters = function(params) {
-                        // join all key value pairs and store in an array
-                        var strArray = [];
-                        for(var key in params) {
-                            if(params.hasOwnProperty(key)) {
-                                var paramString = encodeURIComponent(key) + &quot;=&quot; + encodeURIComponent(params[key]);
-                                strArray.push(paramString);
-                            }
-                        }
-                        // join everything in the array together
-                        return strArray.join(&quot;&amp;&quot;);
-                    }
+// Function to ensure parameters used in request are encoded correctly
+var encodeParameters = function(params) {
+    // join all key value pairs and store in an array
+    var strArray = [];
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var paramString = encodeURIComponent(key) + &quot;=&quot; + encodeURIComponent(params[key]);
+            strArray.push(paramString);
+        }
+    }
+    // join everything in the array together
+    return strArray.join(&quot;&amp;&quot;);
+}
 
-                    // parameters for the API request
-                    var query=&quot;Public Service Broadcasting (band)&quot;;
+// parameters for the API request
+var query=&quot;Public Service Broadcasting (band)&quot;;
 
-                    var parameters = {
-                        format: &quot;json&quot;,
-                        formatversion: 2,
-                        action: &quot;query&quot;,
-                        prop: &quot;extracts&quot;,
-                        titles: query,
-                        indexpageids: &quot;&quot;,
-                        redirects: &quot;&quot;,
-                        callback: &quot;processResponse&quot;
-                    }
+var parameters = {
+    format: &quot;json&quot;,
+    formatversion: 2,
+    action: &quot;query&quot;,
+    prop: &quot;extracts&quot;,
+    titles: query,
+    indexpageids: &quot;&quot;,
+    redirects: &quot;&quot;,
+    callback: &quot;processResponse&quot;
+}
 
-                    // construct the url
-                    var base_url = &quot;https://en.wikipedia.org/w/api.php&quot;;
-                    var query_url = base_url + &apos;?&apos; + encodeParameters(parameters);
+// construct the url
+var base_url = &quot;https://en.wikipedia.org/w/api.php&quot;;
+var query_url = base_url + &apos;?&apos; + encodeParameters(parameters);
 
-                    console.log(query_url);
+console.log(query_url);
 
-                    // add a new script to the page, using the query_url as the source
-                    var script = document.createElement(&apos;script&apos;);
-                    script.src = query_url;
-                    document.getElementsByTagName(&apos;head&apos;)[0].appendChild(script);
+// add a new script to the page, using the query_url as the source
+var script = document.createElement(&apos;script&apos;);
+script.src = query_url;
+document.getElementsByTagName(&apos;head&apos;)[0].appendChild(script);
                 </code>
             </pre>
         </p>

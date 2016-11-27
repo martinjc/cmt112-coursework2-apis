@@ -15,43 +15,43 @@
         <p><a href="http://mkweb.bcgsc.ca/color-summarizer/?api">Image Color Summarizer</a> can analyse images and provide information about the colours contained within the image. For an explanation, see <a href="http://mkweb.bcgsc.ca/color-summarizer/?home">here</a>. Unfortunately, it is not CORS enabled, so we need to use JSONP. It also does not allow us to specify a callback function, it automatically assumes we have a function named '<code>colorsummary</code>' which can deal with the data that is returned:
             <pre>
                 <code>
-                    // Function that will process the response from the API
-                    // This function should probably check for errors
-                    var colorsummary = function(data) {
-                        console.log(data);
-                    }
+// Function that will process the response from the API
+// This function should probably check for errors
+var colorsummary = function(data) {
+    console.log(data);
+}
 
-                    // Function to ensure parameters used in request are encoded correctly
-                    var encodeParameters = function(params) {
-                        // join all key value pairs and store in an array
-                        var strArray = [];
-                        for(var key in params) {
-                            if(params.hasOwnProperty(key)) {
-                                var paramString = encodeURIComponent(key) + &quot;=&quot; + encodeURIComponent(params[key]);
-                                strArray.push(paramString);
-                            }
-                        }
-                        // join everything in the array together
-                        return strArray.join(&quot;&amp;&quot;);
-                    }
+// Function to ensure parameters used in request are encoded correctly
+var encodeParameters = function(params) {
+    // join all key value pairs and store in an array
+    var strArray = [];
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var paramString = encodeURIComponent(key) + &quot;=&quot; + encodeURIComponent(params[key]);
+            strArray.push(paramString);
+        }
+    }
+    // join everything in the array together
+    return strArray.join(&quot;&amp;&quot;);
+}
 
-                    // the parameters for the API request
-                    var parameters = {
-                        url: &apos;scontent.xx.fbcdn.net/t31.0-8/s720x720/12304416_10156352940115253_4201810718041006173_o.jpg&apos;,
-                        precision: &apos;vlow&apos;,
-                        num_clusters: 2,
-                        jsonp: 1
-                    }
+// the parameters for the API request
+var parameters = {
+    url: &apos;scontent.xx.fbcdn.net/t31.0-8/s720x720/12304416_10156352940115253_4201810718041006173_o.jpg&apos;,
+    precision: &apos;vlow&apos;,
+    num_clusters: 2,
+    jsonp: 1
+}
 
-                    // do the XHR request
-                    var base_url = &apos;http://mkweb.bcgsc.ca/color-summarizer/&apos;;
-                    var query_url = base_url + &apos;?&apos; + encodeParameters(parameters)
-                    console.log(query_url);
+// do the XHR request
+var base_url = &apos;http://mkweb.bcgsc.ca/color-summarizer/&apos;;
+var query_url = base_url + &apos;?&apos; + encodeParameters(parameters)
+console.log(query_url);
 
-                    // add a new script to the page, using the query_url as the source
-                    var script = document.createElement(&apos;script&apos;);
-                    script.src = query_url;
-                    document.getElementsByTagName(&apos;head&apos;)[0].appendChild(script);                    
+// add a new script to the page, using the query_url as the source
+var script = document.createElement(&apos;script&apos;);
+script.src = query_url;
+document.getElementsByTagName(&apos;head&apos;)[0].appendChild(script);
                 </code>
             </pre>
         </p>
