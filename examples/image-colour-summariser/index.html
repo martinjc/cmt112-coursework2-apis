@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Color Summarizer API Example</title>
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/default.min.css">
+    <!-- JavaScript -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+</head>
+<body>
+    <article>
+        <h1>Image Color Summarizer Example</h1>
+        <p><a href="http://mkweb.bcgsc.ca/color-summarizer/?api">Image Color Summarizer</a> can analyse images and provide information about the colours contained within the image. For an explanation, see <a href="http://mkweb.bcgsc.ca/color-summarizer/?home">here</a>. Unfortunately, it is not CORS enabled, so we need to use JSONP. It also does not allow us to specify a callback function, it automatically assumes we have a function named '<code>colorsummary</code>' which can deal with the data that is returned:
+            <pre>
+                <code>
+                    // Function that will process the response from the API
+                    // This function should probably check for errors
+                    var colorsummary = function(data) {
+                        console.log(data);
+                    }
+
+                    // Function to ensure parameters used in request are encoded correctly
+                    var encodeParameters = function(params) {
+                        // join all key value pairs and store in an array
+                        var strArray = [];
+                        for(var key in params) {
+                            if(params.hasOwnProperty(key)) {
+                                var paramString = encodeURIComponent(key) + &quot;=&quot; + encodeURIComponent(params[key]);
+                                strArray.push(paramString);
+                            }
+                        }
+                        // join everything in the array together
+                        return strArray.join(&quot;&amp;&quot;);
+                    }
+
+                    // the parameters for the API request
+                    var parameters = {
+                        url: &apos;scontent.xx.fbcdn.net/t31.0-8/s720x720/12304416_10156352940115253_4201810718041006173_o.jpg&apos;,
+                        precision: &apos;vlow&apos;,
+                        num_clusters: 2,
+                        jsonp: 1
+                    }
+
+                    // do the XHR request
+                    var base_url = &apos;http://mkweb.bcgsc.ca/color-summarizer/&apos;;
+                    var query_url = base_url + &apos;?&apos; + encodeParameters(parameters)
+                    console.log(query_url);
+
+                    // add a new script to the page, using the query_url as the source
+                    var script = document.createElement(&apos;script&apos;);
+                    script.src = query_url;
+                    document.getElementsByTagName(&apos;head&apos;)[0].appendChild(script);                    
+                </code>
+            </pre>
+        </p>
+        <p><strong>IMPORTANT NOTE!</strong> This is <strong>NOT ENOUGH</strong> to pass Coursework 2 for CMT112 - you will need to add some extra functionality and presentation of data. I will not be impressed if your submission consists only of the code presented here!</p>
+        <p><a href="../../">Back to home</a></p>
+    </article>
+    <script>
+
+        // Function that will process the response from the API
+        // This function should probably check for errors
+        var colorsummary = function(data) {
+            console.log(data);
+        }
+
+        // Function to ensure parameters used in request are encoded correctly
+        var encodeParameters = function(params) {
+            // join all key value pairs and store in an array
+            var strArray = [];
+            for(var key in params) {
+                if(params.hasOwnProperty(key)) {
+                    var paramString = encodeURIComponent(key) + "=" + encodeURIComponent(params[key]);
+                    strArray.push(paramString);
+                }
+            }
+            // join everything in the array together
+            return strArray.join("&");
+        }
+
+        // the parameters for the API request
+        var parameters = {
+            url: 'scontent.xx.fbcdn.net/t31.0-8/s720x720/12304416_10156352940115253_4201810718041006173_o.jpg',
+            precision: 'vlow',
+            num_clusters: 2,
+            jsonp: 1
+        }
+
+        // do the XHR request
+        var base_url = 'http://mkweb.bcgsc.ca/color-summarizer/';
+        var query_url = base_url + '?' + encodeParameters(parameters)
+        console.log(query_url);
+
+        // add a new script to the page, using the query_url as the source
+        var script = document.createElement('script');
+        script.src = query_url;
+        document.getElementsByTagName('head')[0].appendChild(script);
+
+    </script>
+    <script>
+         hljs.initHighlightingOnLoad();
+    </script>
+</body>
+</html>
