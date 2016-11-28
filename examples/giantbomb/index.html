@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Giant Bomb API Example</title>
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/default.min.css">
+    <!-- JavaScript -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+</head>
+<body>
+    <article>
+        <h1>Giant Bomb API Example</h1>
+        <p><a href="http://www.giantbomb.com/api/">Giant Bomb</a> provides data about games. It does not support CORS, so we need to use JSONP:
+            <pre>
+                <code>
+// Function that will process the response from the API
+// This function should probably check for errors
+var processJSONPResponse = function(data) {
+    console.log(&quot;jsonp&quot;, data);
+}
+
+// Function to ensure parameters used in request are encoded correctly
+var encodeParameters = function(params) {
+    // join all key value pairs and store in an array
+    var strArray = [];
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var paramString = encodeURIComponent(key) + &quot;=&quot; + encodeURIComponent(params[key]);
+            strArray.push(paramString);
+        }
+    }
+    // join everything in the array together
+    return strArray.join(&quot;&amp;&quot;);
+}
+
+// the parameters for the API request
+var parameters = {
+    api_key: &apos;YOUR_API_KEY_HERE&apos;,
+    field_list: &apos;game&apos;,
+    query: &apos;Final Fantasy&apos;,
+    format: &apos;jsonp&apos;,
+    json_callback: &apos;processJSONPResponse&apos;
+}
+
+// add a new script to the page, using the query_url as the source
+var script = document.createElement(&apos;script&apos;);
+script.src = query_url;
+document.getElementsByTagName(&apos;head&apos;)[0].appendChild(script);
+                </code>
+            </pre>
+        </p>
+        <p><strong>IMPORTANT NOTE!</strong> This is <strong>NOT ENOUGH</strong> to pass Coursework 2 for CMT112 - you will need to add some extra functionality and presentation of data. I will not be impressed if your submission consists only of the code presented here!</p>
+        <p><a href="../../">Back to home</a></p>
+    </article>
+    <script>
+
+        // Function that will process the response from the API
+        // This function should probably check for errors
+        var processJSONPResponse = function(data) {
+            console.log("jsonp", data);
+        }
+
+        // Function to ensure parameters used in request are encoded correctly
+        var encodeParameters = function(params) {
+            // join all key value pairs and store in an array
+            var strArray = [];
+            for(var key in params) {
+                if(params.hasOwnProperty(key)) {
+                    var paramString = encodeURIComponent(key) + "=" + encodeURIComponent(params[key]);
+                    strArray.push(paramString);
+                }
+            }
+            // join everything in the array together
+            return strArray.join("&");
+        }
+
+        // the parameters for the API request
+        var parameters = {
+            api_key: 'YOUR_API_KEY_HERE',
+            field_list: 'game',
+            query: 'Final Fantasy',
+            format: 'jsonp',
+            json_callback: 'processJSONPResponse'
+        }
+
+        // // add a new script to the page, using the query_url as the source
+        // var script = document.createElement('script');
+        // script.src = query_url;
+        // document.getElementsByTagName('head')[0].appendChild(script);
+
+    </script>
+    <script>
+         hljs.initHighlightingOnLoad();
+    </script>
+</body>
+</html>
