@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Football-Data.org API Example</title>
+
+        <!-- Styles -->
+        <link rel="stylesheet" href="../../css/style.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/default.min.css">
+        <!-- JavaScript -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+    </head>
+    <body>
+        <article>
+            <h1>Football-Data.org API Example</h1>
+            <p>The <a href="http://api.football-data.org/index">Football-Data.org API</a> gives us data about football competitions, fixtures, teams etc. It accepts CORS, so we can use an <code>XMLHttpRequest</code> object to access it. However, it also requires authentication, so we must register for a key <a href="http://api.football-data.org/register">here</a>, then include this key in a special request header, which we set before sending the XHR API call:
+                <pre>
+                    <code>
+var processXHRResponse = function() {
+    var data = JSON.parse(this.response);
+    console.log(&quot;xhr&quot;, data);
+}
+
+var encodeParameters = function(params) {
+    var strArray = [];
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var paramString = encodeURIComponent(key) + &quot;=&quot; + encodeURIComponent(params[key]);
+            strArray.push(paramString);
+        }
+    }
+    return strArray.join(&quot;&amp;&quot;);
+}
+
+// the parameters for the API request
+var parameters = {
+    season: 2016,
+}
+
+// auth Token obtainable from http://api.football-data.org/register
+var authToken = &apos;YOUR_API_TOKEN_HERE&apos;;
+
+// do the XHR request
+var base_url = &apos;http://api.football-data.org/v1/competitions&apos;;
+var query_url = base_url + &apos;?&apos; + encodeParameters(parameters)
+console.log(query_url);
+
+var xhttp = new XMLHttpRequest();
+xhttp.addEventListener(&apos;load&apos;, processXHRResponse);
+xhttp.open(&apos;GET&apos;, query_url);
+xhttp.setRequestHeader(&quot;X-Auth-Token&quot;, authToken);
+xhttp.send();
+                    </code>
+                </pre>
+            </p>
+            <p><strong>IMPORTANT NOTE!</strong> This is <strong>NOT ENOUGH</strong> to pass Coursework 2 for CMT112 - you will need to add some extra functionality and presentation of data. I will not be impressed if your submission consists only of the code presented here!</p>
+            <p><a href="../../">Back to home</a></p>
+        </article>
+    </body>
+    <script>
+         hljs.initHighlightingOnLoad();
+    </script>
+</html>
