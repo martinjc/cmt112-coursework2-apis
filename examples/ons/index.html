@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Office for National Statistics API Example</title>
+
+        <!-- Styles -->
+        <link rel="stylesheet" href="../../css/style.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/default.min.css">
+        <!-- JavaScript -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+    </head>
+    <body>
+        <article>
+            <h1>ONS API Example</h1>
+            <p>The <a href="https://web.ons.gov.uk/ons/apiservice/web/apiservice/home">ONS API</a> gives lots of statistical data about the UK. The tricky part of dealing with this API is not in the call (which is fairly straightforward) but in the response. ONS provides tabular data as a single one-dimensional array - so finding the value you require can be a bit tricky. The key to it is to understand how many rows and columns you have, and how they are ordered:
+                <pre>
+                    <code>
+var processXHRResponse = function() {
+    var data = JSON.parse(this.response);
+    console.log(&quot;xhr&quot;, data);
+
+    var area_ids = [&quot;W06000001&quot;,&quot;W06000002&quot;,&quot;W06000003&quot;,&quot;W06000004&quot;,&quot;W06000005&quot;,&quot;W06000006&quot;,&quot;W06000023&quot;,&quot;W06000008&quot;,&quot;W06000009&quot;,&quot;W06000010&quot;,&quot;W06000011&quot;,&quot;W06000012&quot;,&quot;W06000013&quot;,&quot;W06000014&quot;,&quot;W06000015&quot;,&quot;W06000016&quot;,&quot;W06000024&quot;,&quot;W06000018&quot;,&quot;W06000019&quot;,&quot;W06000020&quot;,&quot;W06000021&quot;,&quot;W06000022&quot;]
+    var category_ids = [&quot;CI_0000807&quot;,&quot;CI_0000344&quot;,&quot;CI_0000342&quot;,&quot;CI_0000350&quot;,&quot;CI_0000347&quot;,&quot;CI_0000354&quot;,&quot;CI_0000355&quot;,&quot;CI_0000363&quot;]
+
+    rowsIndex = data.QS701EW.dimension[&quot;2014WARDH&quot;].category.index;
+    rowsLabels = data.QS701EW.dimension[&quot;2014WARDH&quot;].category.label;
+
+    columnsIndex = data.QS701EW.dimension.CL_0000129.category.index;
+    columnsLabels = data.QS701EW.dimension.CL_0000129.category.label;
+
+    console.log(rowsIndex, rowsLabels);
+    console.log(columnsIndex, columnsLabels);
+
+    data_values = data.QS701EW.value;
+
+    for(var i = 0; i &lt; area_ids.length; i++) {
+        console.log(&apos;Area: &apos; + rowsLabels[area_ids[i]]);
+        for(var j = 0; j &lt; category_ids.length; j++) {
+            console.log(&apos;Category: &apos; + columnsLabels[category_ids[j]]);
+            console.log(&apos;Value: &apos; + data_values[(i * category_ids.length) + j]);
+        }
+    }
+
+}
+
+var encodeParameters = function(params) {
+    var strArray = [];
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var paramString = encodeURIComponent(key) + &quot;=&quot; + encodeURIComponent(params[key]);
+            strArray.push(paramString);
+        }
+    }
+    return strArray.join(&quot;&amp;&quot;);
+}
+
+var MY_API_KEY = &apos;INSERT_YOUR_API_KEY_HERE&apos;;
+
+// the parameters for the API request
+var parameters = {
+    context: &apos;Census&apos;,
+    jsontype: &apos;json-stat&apos;,
+    apikey: MY_API_KEY,
+    geog: &apos;2014WARDH&apos;,
+    diff: &apos;&apos;,
+    totals: &apos;false&apos;,
+    &apos;dm/2014WARDH&apos;: &apos;W06000001,W06000002,W06000003,W06000004,W06000005,W06000006,W06000023,W06000008,W06000009,W06000010,W06000011,W06000012,W06000013,W06000014,W06000015,W06000016,W06000024,W06000018,W06000019,W06000020,W06000021,W06000022&apos;,
+    &apos;dm/CL_0000129&apos;: &apos;CI_0000807,CI_0000344,CI_0000342,CI_0000350,CI_0000347,CI_0000354,CI_0000355,CI_0000363&apos;
+}
+
+// do the XHR request
+var base_url = &apos;http://web.ons.gov.uk/ons/api/data/dataset/QS701EW.json&apos;;
+var query_url = base_url + &apos;?&apos; + encodeParameters(parameters)
+console.log(query_url);
+
+var xhttp = new XMLHttpRequest();
+xhttp.addEventListener(&apos;load&apos;, processXHRResponse);
+xhttp.open(&apos;GET&apos;, query_url);
+xhttp.send();
+                    </code>
+                </pre>
+            </p>
+            <p><strong>IMPORTANT NOTE!</strong> This is <strong>NOT ENOUGH</strong> to pass Coursework 2 for CMT112 - you will need to add some extra functionality and presentation of data. I will not be impressed if your submission consists only of the code presented here!</p>
+            <p><a href="../../">Back to home</a></p>
+        </article>
+    </body>
+    <script>
+         hljs.initHighlightingOnLoad();
+    </script>
+</html>
